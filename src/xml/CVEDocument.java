@@ -52,7 +52,7 @@ public class CVEDocument extends XMLDocument{
 					}
 			}
 			if(v.size() != 0){
-				ret.put(targets.item(i), v.toArray(a));
+				ret.put(targets.item(i), v.toArray(new URL[v.size()]));
 			}
 		}
 		return ret;
