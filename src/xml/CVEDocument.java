@@ -19,7 +19,7 @@ public class CVEDocument extends XMLDocument{
 		if(nl.getLength() == 0)
 			return null;
 		for(int i = 0; i < nl.getLength(); i++){
-			HashMap<Element, NodeList> h = this.getChildElementsByName(nl, "desc");
+			HashMap<Element, NodeList> h = XMLDocument.getChildElementsByName(nl, "desc");
 			for(Element e: h.keySet()){
 				String desc = h.get(e).item(0).getNodeValue();
 				if(desc.matches(s))
@@ -28,7 +28,7 @@ public class CVEDocument extends XMLDocument{
 		}
 		return ret;
 	}
-	private boolean testMultiple(String[] regexes, String source){
+	protected static boolean testMultiple(String[] regexes, String source){
 		boolean ret = false;
 		for(String s : regexes){
 			if(source.matches(s))
@@ -36,11 +36,11 @@ public class CVEDocument extends XMLDocument{
 		}
 		return ret;
 	}
-	public HashMap<Element, URL[]> getItemURLs(NodeList targets, Node n){
+	public static HashMap<Element, URL[]> getItemURLs(NodeList targets){
 		HashMap<Element, URL[]> ret = new HashMap<Element, URL[]>();
 		
 		for(int i = 0; i < targets.getLength(); i++){
-			HashMap<Element, NodeList> h = this.getChildElementsByName(targets, "ref");
+			HashMap<Element, NodeList> h = XMLDocument.getChildElementsByName(targets, "ref");
 			Vector<URL> v = new Vector<URL>();
 			for(Element e: h.keySet()){
 				boolean valid = testMultiple(new String[]{".*CERT-VN.*",".*SECUNIA.*",".*BID.*"}, e.getAttribute("source"));

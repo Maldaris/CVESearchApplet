@@ -12,12 +12,12 @@ package utilities;
 import java.util.Comparator;
 import java.util.Iterator;
 
-public class BinarySearchTree extends BinaryTree
+public class BinarySearchTree<T extends Object> extends BinaryTree
 {
 	//////////////////////////////////////////////
 	//            Properties                    //
 	//////////////////////////////////////////////
-    private Comparator myComparator;
+    private Comparator<T> myComparator;
     
 	//////////////////////////////////////////////
 	//            Methods                       //
@@ -25,20 +25,20 @@ public class BinarySearchTree extends BinaryTree
 	public BinarySearchTree()
 	{
 		super();
-		myComparator = new NaturalComparator();
+		myComparator = new NaturalComparator<T>();
 	}
 	
 	public BinarySearchTree(Object datum)
 	{
 		super(datum);
-		myComparator = new NaturalComparator();
+		myComparator = new NaturalComparator<T>();
 	}
   
-	public BinarySearchTree(Object datum, BinarySearchTree left, 
-                                          BinarySearchTree right)
+	public BinarySearchTree(Object datum, BinarySearchTree<?> left, 
+                                          BinarySearchTree<?> right)
 	{
 		super(datum, left, right);
-		myComparator = new NaturalComparator();
+		myComparator = new NaturalComparator<T>();
 	}
 	
 	public void add(Object o)
@@ -61,9 +61,9 @@ public class BinarySearchTree extends BinaryTree
 		this.insert(o, this);
 	}
 	
-	private void insert(Object o, BinarySearchTree root)
+	private void insert(Object o, BinarySearchTree<?> root)
 	{
-	    BinarySearchTree node;
+	    BinarySearchTree<T> node;
 	    Object rootData;
 	    int check;
 	    
@@ -82,13 +82,13 @@ public class BinarySearchTree extends BinaryTree
 	    }
 	    else
 	    {
-	        check = myComparator.compare(o, rootData);
+	        check = myComparator.compare((T)o, (T)rootData);
 	        if(check < 0)
 	        {
-	            node = (BinarySearchTree) root.getLeftTree();
+	            node = (BinarySearchTree<T>) root.getLeftTree();
 	            if (node == null)
 	            {
-	                node = new BinarySearchTree(o);
+	                node = new BinarySearchTree<T>(o);
 	                node.setParent(root);
 	                root.setLeftTree(node);
 	                return;
@@ -97,10 +97,10 @@ public class BinarySearchTree extends BinaryTree
 	        }
 	        else
 	        {
-	            node = (BinarySearchTree) root.getRightTree();
+	            node = (BinarySearchTree<T>) root.getRightTree();
 	            if(node == null)
 	            {
-	                node = new BinarySearchTree(o);
+	                node = new BinarySearchTree<T>(o);
 	                node.setParent(root);
 	                root.setRightTree(node);
 	                return;
@@ -115,19 +115,23 @@ public class BinarySearchTree extends BinaryTree
 		this.delete(o, this);
 	}
 	
-	private void delete(Object o, BinarySearchTree root)
+	private void delete(Object o, BinarySearchTree<?> root)
 	{
 		
 	}
 	
-	public BinarySearchTree search(Object o)
+	public BinarySearchTree<?> search(Object o)
 	{
 		return search(o, this);
 	}
 	
-	private BinarySearchTree search(Object o, BinarySearchTree root)
+	private BinarySearchTree<?> search(Object o, BinarySearchTree<?> root)
 	{
-		// Dummy search tree just to make code compile!
-		return new BinarySearchTree();
+		for (Iterator iterator = root.iterator(); iterator.hasNext();) {
+			BinarySearchTree<?> t = (BinarySearchTree<?>) iterator.next();
+			if(t.getData().equals(o))
+				return t;
+		}
+		return null;
 	}
 }

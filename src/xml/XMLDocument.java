@@ -35,7 +35,7 @@ public class XMLDocument {
 		
 		return ret;
 	}
-	public HashMap<Element, NodeList> getChildElementsByName(NodeList l, String id){
+	public static HashMap<Element, NodeList> getChildElementsByName(NodeList l, String id){
 		HashMap<Element, NodeList> ret = new HashMap<Element, NodeList>();
 		
 		for (int i = 0; i < l.getLength(); i++) {
