@@ -1,8 +1,10 @@
 package xml;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Vector;
 
 import org.w3c.dom.*;
 
@@ -26,11 +28,33 @@ public class CVEDocument extends XMLDocument{
 		}
 		return ret;
 	}
-	public HashMap<String, URL> getItemURLS(Node n){
-		HashMap<String, URL> ret = new HashMap<String, URL>();
+	private boolean testMultiple(String[] regexes, String source){
+		boolean ret = false;
+		for(String s : regexes){
+			if(source.matches(s))
+				ret = ret || true;
+		}
+		return ret;
+	}
+	public HashMap<Element, URL[]> getItemURLs(NodeList targets, Node n){
+		HashMap<Element, URL[]> ret = new HashMap<Element, URL[]>();
 		
-		
-		
+		for(int i = 0; i < targets.getLength(); i++){
+			HashMap<Element, NodeList> h = this.getChildElementsByName(targets, "ref");
+			Vector<URL> v = new Vector<URL>();
+			for(Element e: h.keySet()){
+				boolean valid = testMultiple(new String[]{".*CERT-VN.*",".*SECUNIA.*",".*BID.*"}, e.getAttribute("source"));
+				if(valid)
+					try {
+						v.add(new URL(e.getAttribute("url")));
+					} catch (MalformedURLException e1) {
+						continue;
+					}
+			}
+			if(v.size() != 0){
+				ret.put(targets.item(i), v.toArray(a));
+			}
+		}
 		return ret;
 	}
 	
