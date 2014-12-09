@@ -12,7 +12,7 @@ package utilities;
 import java.util.Comparator;
 import java.util.Iterator;
 
-public class BinarySearchTree<T extends Object> extends BinaryTree
+public class BinarySearchTree<T extends Object> extends BinaryTree implements Iterable
 {
 	//////////////////////////////////////////////
 	//            Properties                    //
