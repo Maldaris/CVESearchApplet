@@ -3,6 +3,7 @@ package xml;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Vector;
+import java.util.regex.Pattern;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -20,6 +21,11 @@ public class CVENode {
 	}
 	public String getDescription(){
 		return myElement.getElementsByTagName("desc").item(0).getTextContent();
+	}
+	public boolean matchRegex(Pattern p){
+		if(Pattern.matches(p.pattern(), this.getDescription()))
+			return true;
+		return false;
 	}
 	public URL[] getURLs(){
 		Vector<URL> v = new Vector<URL>();
