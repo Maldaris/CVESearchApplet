@@ -4,9 +4,10 @@ import java.util.*;
 
 public class PriorityQueue<T extends Object> {
 	private Vector<Object> myData;
-	
-	public PriorityQueue(){
+	private Comparator<T> myComparator;
+	public PriorityQueue(Comparator<T> comparator){
 		myData = new Vector<Object>();
+		myComparator = comparator;
 	}
 	public void append(T t){
 		myData.addElement(t);

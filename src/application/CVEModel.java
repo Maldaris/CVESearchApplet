@@ -22,26 +22,30 @@ public class CVEModel {
 	public String[] getSearchTerms(CVEDocument d){
 		ArrayList<String> ret = new ArrayList<String>();
 		Pattern captial = Pattern.compile("/([A-Z][\\w-]*(\\s+[A-Z][\\w-]*)+)/");
+		Pattern reserved = Pattern.compile("(\\*)(\\*)(\\*)(\\s)RESERVED(\\s)(\\*)(\\*)(\\*)");
 		
 		CVENode[] cveNodes = CVENode.nodeListToArray(d.getNodesByName("item"));
 		for(CVENode cvenode : cveNodes){
 			String desc = cvenode.getDescription();
-			
+			Matcher reservedMatcher = reserved.matcher(desc);
 			Matcher capitalMatcher = captial.matcher(desc);
+			if(reservedMatcher.find())
+				continue;
 			while(capitalMatcher.find()){
 				String res = capitalMatcher.group();
 				if(!ret.contains(res))
 					ret.add(res);
 			}
 		}
-		return ret.toArray(new String[ret.size()]);
-		
+		String[] retarr = new String[ret.size()];
+		retarr = ret.toArray(retarr);
+		return retarr;
 		
 	}
 	public BinarySearchTree<PriorityQueue> buildSearchTree(){
 		BinarySearchTree<PriorityQueue> ret = new BinarySearchTree<PriorityQueue>();
 		for(String param : this.getSearchTerms(myCVEDocument)){
-			PriorityQueue<CVENode> queue = new PriorityQueue<CVENode>();
+			PriorityQueue<CVENode> queue = new PriorityQueue<CVENode>(new CVENodeAlphaComparator());
 			
 			
 		}
