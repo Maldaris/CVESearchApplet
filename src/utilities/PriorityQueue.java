@@ -9,8 +9,14 @@ public class PriorityQueue<T extends Object> {
 		myData = new Vector<Object>();
 		myComparator = comparator;
 	}
+	@SuppressWarnings("unchecked")
 	public void append(T t){
-		myData.addElement(t);
+		for(int x = 0; x < myData.size(); x++){
+			int res = myComparator.compare(t, (T) myData.get(x));
+			if(res <= 0){
+				myData.insertElementAt(t, x);
+			}
+		}
 	}
 	@SuppressWarnings("unchecked")
 	public T remove(){
