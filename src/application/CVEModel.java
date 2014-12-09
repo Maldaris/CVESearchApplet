@@ -21,7 +21,7 @@ public class CVEModel {
 	}
 	public String[] getSearchTerms(CVEDocument d){
 		ArrayList<String> ret = new ArrayList<String>();
-		Pattern captial = Pattern.compile("/([A-Z][\\w-]*(\\s+[A-Z][\\w-]*)+)/");
+		Pattern captial = Pattern.compile("([A-Z][\\w-]*(\\s+[A-Z][\\w-]*)+)");
 		Pattern reserved = Pattern.compile("(\\*)(\\*)(\\*)(\\s)RESERVED(\\s)(\\*)(\\*)(\\*)");
 		
 		CVENode[] cveNodes = CVENode.nodeListToArray(d.getNodesByName("item"));
