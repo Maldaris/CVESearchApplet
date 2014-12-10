@@ -5,10 +5,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import utilities.*;
+import utilities.CVENodeAlphaComparator;
 import xml.*;
 
 public class CVEModel {
-	private BinarySearchTree<PriorityQueue> mySearchTree;
+	private BinarySearchTree<CVEPriorityQueue> mySearchTree;
 	private CVEDocument myCVEDocument;
 	private String mySearchString;
 	public final Pattern REGEX_CAPITAL = Pattern
@@ -19,6 +20,7 @@ public class CVEModel {
 	public CVEModel() {
 		myCVEDocument = new CVEDocument("data/cve.xml");
 		mySearchString = "";
+		mySearchTree = buildSearchTree();
 	}
 
 	public CVEDocument getCVEDocument() {
@@ -47,8 +49,8 @@ public class CVEModel {
 
 	}
 
-	public BinarySearchTree<CVEPriorityQueue> buildSearchTree() {
-		BinarySearchTree<CVEPriorityQueue> ret = new BinarySearchTree<CVEPriorityQueue>();
+	private BinarySearchTree<CVEPriorityQueue> buildSearchTree() {
+		BinarySearchTree<CVEPriorityQueue> ret = new BinarySearchTree<CVEPriorityQueue>(new CVEQueueComparator());
 		for (String param : this.getSearchTerms(myCVEDocument)) {
 			CVEPriorityQueue<CVENode> queue = new CVEPriorityQueue<CVENode>(
 					new CVENodeAlphaComparator(), param);

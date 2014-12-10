@@ -33,6 +33,10 @@ public class BinarySearchTree<T extends Object> extends BinaryTree implements It
 		super(datum);
 		myComparator = new NaturalComparator<T>();
 	}
+	public BinarySearchTree(Comparator<T> compare){
+		super();
+		myComparator = compare;
+	}
   
 	public BinarySearchTree(Object datum, BinarySearchTree<?> left, 
                                           BinarySearchTree<?> right)

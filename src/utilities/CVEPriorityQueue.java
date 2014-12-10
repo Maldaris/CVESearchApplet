@@ -2,7 +2,10 @@ package utilities;
 
 import java.util.Comparator;
 
-public class CVEPriorityQueue<T> extends PriorityQueue<T> {
+import xml.CVENode;
+
+public class CVEPriorityQueue<T extends CVENode> extends PriorityQueue<T> 
+{
 	private String mySearchTerm;
 
 	public String getMySearchTerm() {
@@ -17,6 +20,8 @@ public class CVEPriorityQueue<T> extends PriorityQueue<T> {
 		super(comparator);
 		mySearchTerm = searchTerm;
 	}
+
+
 	
 
 }
