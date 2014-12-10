@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 public class CVEController
 {
 		private CVEView myView;
-		//private CVEModel myModel;
+		private CVEModel myModel;
 		/**
 		 * Makes it so that buttons actually communicate with the model and back
 		 */
@@ -13,7 +13,7 @@ public class CVEController
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		public CVEController()
 		{
-		//	myModel = new CVEModel();
+			myModel = new CVEModel();
 			myView = new CVEView(this);
 			
 			Class cls = this.getClass();

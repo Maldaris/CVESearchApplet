@@ -28,12 +28,11 @@ public class BinarySearchTree<T extends Object> extends BinaryTree implements It
 		myComparator = new NaturalComparator<T>();
 	}
 	
-	public BinarySearchTree(Object datum)
+	public BinarySearchTree(Comparator<T> compare)
 	{
-		super(datum);
-		myComparator = new NaturalComparator<T>();
+		myComparator = compare;
 	}
-	public BinarySearchTree(Comparator<T> compare){
+	public BinarySearchTree(Comparator<T> compare ,Object datum){
 		super();
 		myComparator = compare;
 	}
@@ -92,7 +91,7 @@ public class BinarySearchTree<T extends Object> extends BinaryTree implements It
 	            node = (BinarySearchTree<T>) root.getLeftTree();
 	            if (node == null)
 	            {
-	                node = new BinarySearchTree<T>(o);
+	                node = new BinarySearchTree<T>(myComparator, o);
 	                node.setParent(root);
 	                root.setLeftTree(node);
 	                return;
@@ -104,7 +103,7 @@ public class BinarySearchTree<T extends Object> extends BinaryTree implements It
 	            node = (BinarySearchTree<T>) root.getRightTree();
 	            if(node == null)
 	            {
-	                node = new BinarySearchTree<T>(o);
+	                node = new BinarySearchTree<T>(myComparator, o);
 	                node.setParent(root);
 	                root.setRightTree(node);
 	                return;
