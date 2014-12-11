@@ -50,16 +50,19 @@ public class CVEModel {
 	}
 
 	private BinarySearchTree<CVEPriorityQueue> buildSearchTree() {
-		BinarySearchTree<CVEPriorityQueue> ret = new BinarySearchTree<CVEPriorityQueue>(new CVEQueueComparator());
+		@SuppressWarnings("rawtypes")
+		BinarySearchTree<CVEPriorityQueue> ret = new BinarySearchTree<CVEPriorityQueue>(
+				new CVEQueueComparator());
+		CVENode[] cveNodes = CVENode.nodeListToArray(myCVEDocument.getNodesByName("item"));
 		for (String param : this.getSearchTerms(myCVEDocument)) {
 			CVEPriorityQueue<CVENode> queue = new CVEPriorityQueue<CVENode>(
 					new CVENodeAlphaComparator(), param);
-
-			CVENode[] cveNodes = CVENode.nodeListToArray(myCVEDocument
-					.getNodesByName("item"));
 			for (CVENode cve : cveNodes) {
 				if (cve.getName().matches(param))
 					queue.append(cve);
+				if(queue.size() >= 100){
+					break;
+				}
 			}
 			ret.add(queue);
 		}
@@ -67,16 +70,11 @@ public class CVEModel {
 		return ret;
 	}
 
-	public CVEPriorityQueue<CVENode> getQueueBySearchTerm(String term) {
+	public CVEPriorityQueue getQueueBySearchTerm(String term) {
 		if (term == "" || term == null)
 			return null;
-		for (Object tree : this.mySearchTree) {
-			assert tree instanceof BinarySearchTree;
-
-			BinarySearchTree<CVEPriorityQueue<CVENode>> cast = (BinarySearchTree<CVEPriorityQueue<CVENode>>) tree;
-			if(((CVEPriorityQueue<CVENode>) cast.getData()).getMySearchTerm() == term)
-				return (CVEPriorityQueue<CVENode>) cast.getData();
-		}
-		return null;
+		CVEPriorityQueue queue = (CVEPriorityQueue) this.mySearchTree.search(
+				new CVEPriorityQueue(new CVEQueueComparator(), term)).getData();
+		return queue;
 	}
 }

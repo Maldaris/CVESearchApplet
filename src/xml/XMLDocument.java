@@ -18,14 +18,12 @@ public class XMLDocument {
 		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return;
 		}
 		try {
 			myXMLDocument = myDocumentBuilder.parse(new File("data/cves.xml"));
 		} catch (SAXException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return;
 		}
 	}
 	public NodeList getNodesByName(String id){
